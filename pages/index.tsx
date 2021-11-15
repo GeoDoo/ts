@@ -1,6 +1,19 @@
 import Head from "next/head";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [greeting, setGreeting] = useState();
+
+  useEffect(() => {
+    async function fetchData() {
+      const { text } = await (await fetch("/api/hello")).json();
+
+      setGreeting(text);
+    }
+
+    fetchData();
+  }, []);
+
   return (
     <div>
       <Head>
@@ -9,7 +22,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <h1>Hello World</h1>
+        <h1>{greeting}</h1>
       </main>
     </div>
   );
